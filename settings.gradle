@@ -1,0 +1,5 @@
+include ':domain'
+include ':device'
+include ':data'
+include ':app'
+rootProject.name = "Pomodoro"
