@@ -7,10 +7,11 @@ import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.setVisible
 import com.fetecom.pomodoro.observe
 import kotlinx.android.synthetic.main.tasks_fragment.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TasksFragment : Fragment(R.layout.tasks_fragment) {
-    private val viewModel: TasksViewModel by viewModel()
+    private val viewModel: TasksViewModel by sharedViewModel()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -24,6 +25,14 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun setupUI() {
+        addButton.setOnClickListener {
+            TaskDialogFragment.newInstance()
+                .apply {
+                    this.onAddOrEdit = {
+                        viewModel.getTasks()
+                    }
+                }.show(requireActivity().supportFragmentManager, TaskDialogFragment.TAG)
+        }
     }
 
     private fun initCityList() {

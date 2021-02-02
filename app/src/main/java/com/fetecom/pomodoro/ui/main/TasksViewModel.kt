@@ -18,13 +18,15 @@ class TasksViewModel(
     val tasks = liveData<List<TaskAdapter.TaskModel>> {} as MutableLiveData
 
     init {
-        addNewTask("New task 1")
-        addNewTask("New task 2")
-        addNewTask("New task 3")
         getTasks()
     }
 
-    private fun getTasks() {
+    private fun deleteTask() {
+        viewModelScope.launch {
+            tasksRepository.deleteAllTasks()
+        }
+    }
+    fun getTasks() {
         loading.value = true
         viewModelScope.launch {
             val receivedTasks = tasksRepository.getTodayTasks()
@@ -38,15 +40,20 @@ class TasksViewModel(
     fun onTaskChosen(task: Task) {
         viewModelScope.launch {
             Reporter.reportD("Task has been chosen: ${task.title}")
-
         }
     }
 
-    fun addNewTask(title: String) {
+    fun addNewTask(title: String, estimate: Int) {
         viewModelScope.launch {
             tasksRepository.addTask(title)
             Reporter.reportD("Task has been added: $title")
+        }
+    }
 
+    fun editTask(taskId: Int, newTitle: String, newEstimate: Int) {
+        viewModelScope.launch {
+            tasksRepository.editTaskById(taskId, newTitle,newEstimate)
+            Reporter.reportD("Task has been edited: $newTitle")
         }
     }
 }

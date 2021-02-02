@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pomodoro</string>
+    <string name="fab_content_desc">Add task</string>
+    <string name="enter_task_name">Enter task name</string>
 </resources>

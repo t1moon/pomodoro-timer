@@ -18,4 +18,16 @@ class TasksRepositoryImpl(
             title= title
         ))
     }
+
+    override suspend fun deleteAllTasks() {
+        taskDao.deleteAllTasks()
+    }
+
+    override suspend fun editTaskById(taskId: Int, newTitle: String, newEstimate: Int) {
+        taskDao.save(
+            TaskDB(
+                id = taskId,
+                title= newTitle
+        ))
+    }
 }
