@@ -9,5 +9,14 @@
         android:id="@+id/tasksFragment"
         android:name="com.fetecom.pomodoro.ui.main.TasksFragment"
         android:label="tasks_fragment"
-        tools:layout="@layout/tasks_fragment" />
+        tools:layout="@layout/tasks_fragment" >
+        <action
+            android:id="@+id/action_tasksFragment_to_timerFragment"
+            app:destination="@id/timerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.fetecom.pomodoro.ui.timer.TimerFragment"
+        android:label="TimerFragment"
+        tools:layout="@layout/timer_fragment"/>
 </navigation>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TimerViewStyleable">
+        <attr name="bgColor" format="integer" />
+        <attr name="fgColor" format="integer"/>
+        <attr name="fgColorPause" format="integer"/>
+        <attr name="percent" format="integer"/>
+        <attr name="timerStrokeWidth" format="integer"/>
+        <attr name="circlePadding" format="float"/>
+        <attr name="elevationPause" format="integer" />
+        <attr name="elevationPlay" format="integer"/>
+    </declare-styleable>
+</resources>

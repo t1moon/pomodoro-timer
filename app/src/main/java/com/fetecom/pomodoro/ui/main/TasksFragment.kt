@@ -2,6 +2,7 @@ package com.fetecom.pomodoro.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.setVisible
@@ -51,6 +52,7 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     private val taskAdapter = TaskAdapter(object : TaskAdapter.Interactor {
         override fun onTaskClick(task: Task) {
             viewModel.onTaskChosen(task)
+            view?.findNavController()?.navigate(R.id.action_tasksFragment_to_timerFragment)
         }
     })
 }
