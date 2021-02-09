@@ -7,9 +7,9 @@ import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.setVisible
 import com.fetecom.pomodoro.observe
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.tasks_fragment.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class TasksFragment : Fragment(R.layout.tasks_fragment) {
     private val viewModel: TasksViewModel by sharedViewModel()
@@ -26,14 +26,25 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun setupUI() {
+        todayDate.text = "12 April, 2021"
         addButton.setOnClickListener {
-            TaskDialogFragment.newInstance()
-                .apply {
-                    this.onAddOrEdit = {
-                        viewModel.getTasks()
-                    }
-                }.show(requireActivity().supportFragmentManager, TaskDialogFragment.TAG)
+            showTaskDialog()
         }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                viewModel.selectTab(tab?.position ?: 0)
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
+    private fun showTaskDialog() {
+        TaskDialogFragment.newInstance().apply {
+            this.onAddOrEdit = {
+                viewModel.onRefresh()
+            }
+        }.show(requireActivity().supportFragmentManager, TaskDialogFragment.TAG)
     }
 
     private fun initCityList() {
@@ -41,11 +52,9 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun subscribeOnUpdate() {
-        observe(viewModel.loading) {
-            taskListProgress.setVisible(it)
-        }
-        observe(viewModel.tasks) {
-            taskAdapter.submitList(it)
+        observe(viewModel.screenState) {
+            if (it is TasksViewModel.ScreenState.Success)
+                taskAdapter.submitList(it.taskModels)
         }
     }
 
@@ -53,6 +62,11 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
         override fun onTaskClick(task: Task) {
             viewModel.onTaskChosen(task)
             view?.findNavController()?.navigate(R.id.action_tasksFragment_to_timerFragment)
+        }
+
+        override fun onTaskLongClick(task: Task) {
+            viewModel.onTaskEdit(task)
+            showTaskDialog()
         }
     })
 }

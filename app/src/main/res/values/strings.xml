@@ -2,4 +2,7 @@
     <string name="app_name">Pomodoro</string>
     <string name="fab_content_desc">Add task</string>
     <string name="enter_task_name">Enter task name</string>
+    <string name="tabs_today">Today</string>
+    <string name="tabs_backlog">Backlog</string>
+    <string name="estimation_dialog_title">Estimation</string>
 </resources>

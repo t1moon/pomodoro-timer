@@ -1,59 +1,90 @@
 package com.fetecom.pomodoro.ui.main
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.fetecom.data.Reporter
 import com.fetecom.domain.Task
 import com.fetecom.domain.TasksRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class TasksViewModel(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
-
-    val loading = liveData<Boolean> { } as MutableLiveData
-    val tasks = liveData<List<TaskAdapter.TaskModel>> {} as MutableLiveData
-
-    init {
-        getTasks()
+    sealed class ScreenState {
+        object Loading : ScreenState()
+        data class Success(val taskModels: List<TaskAdapter.TaskModel>) : ScreenState()
     }
 
-    private fun deleteTask() {
-        viewModelScope.launch {
-            tasksRepository.deleteAllTasks()
+
+    private val selectedTab: MutableLiveData<TabType> = liveData {
+        emit(TabType.Today)
+    } as MutableLiveData<TabType>
+
+    val taskList = liveData<List<Task>> { } as MutableLiveData
+    val screenState = Transformations.switchMap(selectedTab) {
+        liveData(Dispatchers.IO) {
+            val tasks = when (it) {
+                TabType.Today -> tasksRepository.getTodayTasks()
+                TabType.Backlog -> tasksRepository.getBacklogTasks()
+                null -> tasksRepository.getTodayTasks()
+            }
+            taskList.postValue(tasks)
+            Reporter.reportD("Tasks have been received: ${tasks.size}")
+
+            emit(ScreenState.Success(tasks.map { TaskAdapter.TaskModel(it) }))
         }
     }
-    fun getTasks() {
-        loading.value = true
-        viewModelScope.launch {
-            val receivedTasks = tasksRepository.getTodayTasks()
-            loading.value = false
-            val taskUiModels = receivedTasks.map { TaskAdapter.TaskModel(it) }
-            this@TasksViewModel.tasks.value = taskUiModels
-            Reporter.reportD("Tasks has been received: ${receivedTasks.size}")
-        }
+
+    fun selectTab(tabPosition: Int) {
+        selectedTab.value = if (tabPosition == 0) TabType.Today else TabType.Backlog
+        Reporter.reportD("Tab is selected: ${selectedTab.value.toString()}")
     }
+
+    enum class TabType {
+        Today, Backlog
+    }
+
+    val currentTask = liveData<Task> {} as MutableLiveData
+    val editableTask = liveData<Task> {} as MutableLiveData
+
+    fun deleteEditableTask() {
+        editableTask.value?.id?.let { taskId ->
+            viewModelScope.launch {
+                tasksRepository.deleteTaskById(taskId)
+            }
+        }
+
+    }
+
 
     fun onTaskChosen(task: Task) {
+        currentTask.value = task
         viewModelScope.launch {
             Reporter.reportD("Task has been chosen: ${task.title}")
         }
     }
 
-    fun addNewTask(title: String, estimate: Int) {
+    fun addNewTask(title: String, estimation: Int) {
         viewModelScope.launch {
-            tasksRepository.addTask(title)
+            tasksRepository.addTask(Task(title = title, estimation = estimation))
             Reporter.reportD("Task has been added: $title")
         }
     }
 
-    fun editTask(taskId: Int, newTitle: String, newEstimate: Int) {
+    fun editTask(taskId: Int, title: String, estimation: Int) {
         viewModelScope.launch {
-            tasksRepository.editTaskById(taskId, newTitle,newEstimate)
-            Reporter.reportD("Task has been edited: $newTitle")
+            tasksRepository.editTaskById(taskId, Task(title = title, estimation = estimation))
+            Reporter.reportD("Task has been edited: $title")
         }
     }
+
+    fun onTaskEdit(task: Task) {
+        editableTask.value = task
+    }
+
+    fun onRefresh() {
+        selectedTab.value = selectedTab.value
+    }
+
+
 }

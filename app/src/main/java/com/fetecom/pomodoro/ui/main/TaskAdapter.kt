@@ -21,6 +21,7 @@ class TaskAdapter(
 
     interface Interactor {
         fun onTaskClick(task: Task)
+        fun onTaskLongClick(task: Task)
     }
     override fun getItemViewType(position: Int): Int {
         return getItem(position).getType()
@@ -50,6 +51,10 @@ class TaskAdapter(
 
             itemView.setOnClickListener {
                 interactor.onTaskClick(item.task)
+            }
+            itemView.setOnLongClickListener {
+                interactor.onTaskLongClick(item.task)
+                true
             }
         }
     }

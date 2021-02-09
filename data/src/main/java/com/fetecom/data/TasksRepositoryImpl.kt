@@ -9,25 +9,24 @@ class TasksRepositoryImpl(
 ) : TasksRepository {
 
     override suspend fun getTodayTasks(): List<Task> {
+        return taskDao.getAllTasks()
+            .map { it.toModel() }.take(3)
+    }
+
+    override suspend fun getBacklogTasks(): List<Task> {
         return taskDao.getAllTasks().map { it.toModel() }
     }
 
-    override suspend fun addTask(title: String) {
-        taskDao.save(TaskDB(
-            id = Random.nextInt(),
-            title= title
-        ))
+    override suspend fun deleteTaskById(taskId: Int) {
+        taskDao.deleteTaskById(taskId)
     }
 
-    override suspend fun deleteAllTasks() {
-        taskDao.deleteAllTasks()
+    override suspend fun addTask(task: Task) {
+        taskDao.save(TaskDB.fromModel(task))
     }
 
-    override suspend fun editTaskById(taskId: Int, newTitle: String, newEstimate: Int) {
-        taskDao.save(
-            TaskDB(
-                id = taskId,
-                title= newTitle
-        ))
+    override suspend fun editTaskById(taskId: Int, task: Task) {
+        taskDao.save(TaskDB.fromModel(task.copy(id = taskId)))
     }
+
 }

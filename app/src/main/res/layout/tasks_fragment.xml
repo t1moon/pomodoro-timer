@@ -11,29 +11,56 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.TasksFragment">
 
-        <ProgressBar
-            android:id="@+id/taskListProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="0dp"
+        <TextView
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:id="@+id/todayDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="64dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="invisible" />
+            tools:text="12 April, 2021" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/todayDate"
+            app:layout_constraintTop_toBottomOf="@+id/todayDate"
+            app:tabGravity="start"
+            app:tabIndicator="@drawable/tabs_indicator"
+            app:tabIndicatorHeight="10dp"
+            app:tabPaddingBottom="20dp"
+            app:tabPaddingTop="10dp"
+            app:tabTextAppearance="?attr/textAppearanceHeadline6">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tabs_today" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tabs_backlog" />
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/taskListView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/taskListProgress"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
             tools:itemCount="5"
             tools:listitem="@layout/tasks_fragment_task_item" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
