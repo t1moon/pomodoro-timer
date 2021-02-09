@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
-import com.fetecom.pomodoro.common.setVisible
 import com.fetecom.pomodoro.observe
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.tasks_fragment.*

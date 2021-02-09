@@ -1,18 +1,25 @@
 package com.fetecom.pomodoro.ui.main
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
+import android.widget.FrameLayout
+import androidx.annotation.NonNull
+import androidx.core.view.ViewCompat
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.hide
 import com.fetecom.pomodoro.common.show
 import com.fetecom.pomodoro.observe
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.android.synthetic.main.tasks_fragment_task_dialog.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -53,6 +60,7 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
             initTask(it)
         }
         initEmpty()
+        titleInput.requestFocus()
     }
 
     private fun initTask(task: Task) {
@@ -106,4 +114,17 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
         super.onDismiss(dialog)
         onAddOrEdit()
     }
+    lateinit var modalBottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+    override fun onStart() {
+        super.onStart()
+        modalBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        modalBottomSheetBehavior = (dialog as BottomSheetDialog).behavior
+        return dialog
+    }
+
+
 }
