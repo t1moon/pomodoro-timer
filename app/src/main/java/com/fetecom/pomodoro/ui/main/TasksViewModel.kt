@@ -46,6 +46,7 @@ class TasksViewModel(
 
     val currentTask = liveData<Task> {} as MutableLiveData
     val editableTask = liveData<Task> {} as MutableLiveData
+    var estimationOfAddingTask = liveData<Int> {} as MutableLiveData
 
     fun deleteEditableTask() {
         editableTask.value?.id?.let { taskId ->
@@ -66,7 +67,7 @@ class TasksViewModel(
 
     fun addNewTask(title: String, estimation: Int) {
         viewModelScope.launch {
-            tasksRepository.addTask(Task(title = title, estimation = estimation))
+            tasksRepository.addTask(Task(title = title, estimation = estimationOfAddingTask.value ?: 1))
             Reporter.reportD("Task has been added: $title")
         }
     }

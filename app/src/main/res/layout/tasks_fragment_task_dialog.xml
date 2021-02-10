@@ -7,18 +7,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         app:boxBackgroundColor="?attr/colorSurface"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
         app:endIconMode="clear_text"
-        android:hint="@string/enter_task_name"
         app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/deleteIcon"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,9 @@
             android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionSend|flagNoEnterAction"/>
+            android:hint="@string/enter_task_name"
+            android:imeOptions="actionSend|flagNoEnterAction"
+            android:textAppearance="?attr/textAppearanceHeadline6"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -38,34 +40,47 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_delete_outline_24" />
 
-    <Button
-        android:id="@+id/addOrEditButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estimationBtn"
-        tools:text="Add" />
-
-    <Button
-        android:id="@+id/estimationBtn"
+    <TextView
+        android:id="@+id/estimationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Estimation"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
         app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/titleInputLayout" />
+
+    <include
+        android:id="@+id/estimationChips"
+        layout="@layout/tasks_fragment_task_dialog_estimate_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/estimationTitle" />
+
+    <Button
+        android:id="@+id/addOrEditButton"
+        style="@style/Widget.Pomodoro.Button.Main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/estimationChips"
+        app:layout_constraintStart_toStartOf="@+id/estimationChips"
+        app:layout_constraintTop_toBottomOf="@+id/estimationChips"
+        tools:text="Add" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

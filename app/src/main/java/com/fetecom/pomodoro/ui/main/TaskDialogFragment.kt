@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.annotation.NonNull
-import androidx.core.view.ViewCompat
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.hide
@@ -17,10 +15,9 @@ import com.fetecom.pomodoro.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.tasks_fragment_task_dialog.*
+import kotlinx.android.synthetic.main.tasks_fragment_task_dialog_estimate_item.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
@@ -56,26 +53,22 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun init() {
-        observe(viewModel.editableTask) {
+        viewModel.editableTask.value?.let {
             initTask(it)
-        }
-        initEmpty()
+        } ?: initEmpty()
         titleInput.requestFocus()
     }
+
 
     private fun initTask(task: Task) {
         titleInput.setText(task.title)
         deleteIcon.show()
         addOrEditButton.text = "Edit"
-        estimationBtn.setOnClickListener {
-            showEstimationPicker()
-        }
-        estimationBtn.text = task.estimation.toString()
         addOrEditButton.setOnClickListener {
             viewModel.editTask(
                 task.id,
                 titleInput.text.toString(),
-                estimationBtn.toString().toInt()
+                0
             )
             dismiss()
         }
@@ -83,32 +76,36 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
             viewModel.deleteEditableTask()
             dismiss()
         }
+        val checkedChipId = chipGroup.checkedChipId
+        initEstimationChips(checkedChipId)
     }
 
     private fun initEmpty() {
         deleteIcon.hide()
         addOrEditButton.text = "Add"
-        estimationBtn.setOnClickListener {
-            showEstimationPicker()
-        }
+
         addOrEditButton.setOnClickListener {
             viewModel.addNewTask(
                 title = titleInput.text.toString(),
-                estimation = estimationBtn.text.toString().toInt()
+                estimation = 0
             )
             dismiss()
         }
+        initEstimationChips()
     }
 
-    private fun showEstimationPicker() {
-        val items = arrayOf("1", "2", "3")
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.estimation_dialog_title))
-            .setItems(items) { dialog, which ->
-                estimationBtn.text = items[which]
-            }
-            .show()
+    private fun initEstimationChips(checkedChipId: Int = 1) {
+        for (i in 1..6) {
+            chipGroup.addView(Chip(requireContext()).apply {
+                text = "$i"
+                isChecked = i == checkedChipId
+            })
+        }
+        chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            viewModel.estimationOfAddingTask.value = checkedId
+        }
     }
+
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="timer_radius_corner">1000dp</dimen>
+    <dimen name="estimation_chip_min_height">48dp</dimen>
 </resources>
