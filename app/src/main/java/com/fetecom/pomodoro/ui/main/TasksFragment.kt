@@ -24,6 +24,11 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
         subscribeOnUpdate()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onRefresh()
+    }
+
     private fun setupUI() {
         todayDate.text = "12 April, 2021"
         addButton.setOnClickListener {

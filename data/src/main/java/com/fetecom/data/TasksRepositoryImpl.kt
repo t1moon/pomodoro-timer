@@ -29,4 +29,8 @@ class TasksRepositoryImpl(
         taskDao.save(TaskDB.fromModel(task.copy(id = taskId)))
     }
 
+    override suspend fun addDoneToTaskById(taskId: Int) {
+        taskDao.updateDoneInTaskById(taskId)
+    }
+
 }

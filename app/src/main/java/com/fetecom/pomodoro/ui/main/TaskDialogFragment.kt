@@ -11,13 +11,12 @@ import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.hide
 import com.fetecom.pomodoro.common.show
-import com.fetecom.pomodoro.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.tasks_fragment_task_dialog.*
-import kotlinx.android.synthetic.main.tasks_fragment_task_dialog_estimate_item.*
+import kotlinx.android.synthetic.main.tasks_fragment_add_task_dialog.*
+import kotlinx.android.synthetic.main.tasks_fragment_add_task_dialog_estimation_item.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
@@ -44,7 +43,7 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return LayoutInflater.from(context)
-            .inflate(R.layout.tasks_fragment_task_dialog, container, false)
+            .inflate(R.layout.tasks_fragment_add_task_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

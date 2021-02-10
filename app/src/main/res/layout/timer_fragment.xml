@@ -41,4 +41,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Do some task" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constrainedWidth="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerView"
+        tools:itemCount="5"
+        tools:listitem="@layout/tasks_fragment_task_item_timer_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

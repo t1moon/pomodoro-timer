@@ -58,7 +58,7 @@
 
     <include
         android:id="@+id/estimationChips"
-        layout="@layout/tasks_fragment_task_dialog_estimate_item"
+        layout="@layout/tasks_fragment_add_task_dialog_estimation_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

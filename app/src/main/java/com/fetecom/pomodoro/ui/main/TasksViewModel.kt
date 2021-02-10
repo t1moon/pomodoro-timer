@@ -87,5 +87,15 @@ class TasksViewModel(
         selectedTab.value = selectedTab.value
     }
 
+    fun updateCurrentTaskDoneValue() {
+        currentTask.value?.let { task ->
+            viewModelScope.launch {
+                tasksRepository.addDoneToTaskById(task.id)
+                Reporter.reportD("Task has increased done value: ${task.title}")
+            }
+        }
+
+    }
+
 
 }
