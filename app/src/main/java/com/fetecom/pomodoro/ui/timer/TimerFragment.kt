@@ -37,6 +37,6 @@ class TimerFragment : Fragment(R.layout.timer_fragment) {
 
     private fun initTimersList(task: Task) = TimerAdapter().apply {
             timersList.adapter = this
-            submitList(task.estimation, task.done)
+            submitList(task.estimation, task.completed)
         }
 }

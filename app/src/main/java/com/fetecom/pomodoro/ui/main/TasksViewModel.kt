@@ -29,7 +29,7 @@ class TasksViewModel(
                 null -> tasksRepository.getTodayTasks()
             }
             taskList.postValue(tasks)
-            Reporter.reportD("Tasks have been received: ${tasks.size}")
+            Reporter.reportD("Tasks have been received: $tasks")
 
             emit(ScreenState.Success(tasks.map { TaskAdapter.TaskModel(it) }))
         }

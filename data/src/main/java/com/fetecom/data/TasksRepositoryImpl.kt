@@ -10,9 +10,8 @@ class TasksRepositoryImpl(
 
     override suspend fun getTodayTasks(): List<Task> {
         return taskDao.getAllTasks()
-            .map { it.toModel() }
-            .sortedBy {
-                it.done
+            .map {
+                it.toModel()
             }
     }
 

@@ -5,14 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.fetecom.domain.Task
 
 @Dao
 interface TaskDao {
     @Insert(onConflict = REPLACE)
     suspend fun save(task: TaskDB)
 
-    @Query("SELECT * FROM taskdb ORDER BY createdAt DESC")
+    @Query("SELECT * FROM taskdb")
     suspend fun getAllTasks(): List<TaskDB>
 
     @Query("SELECT * FROM taskdb WHERE id= :taskId")
@@ -26,14 +25,12 @@ interface TaskDao {
 
     suspend fun updateDoneInTaskById(taskId: Int) {
         val task = getTaskById(taskId)
-        val updatedTask = task.copy(done = task.done + 1)
-        this.updateTask(updatedTask)
+        save(task.copy(createdAt = task.createdAt, completed = task.completed + 1))
     }
 
     suspend fun markAsDoneByTaskId(taskId: Int) {
         val task = getTaskById(taskId)
-        val updatedTask = task.copy(isDone = true)
-        this.updateTask(updatedTask)
+        save(task.copy(createdAt = task.createdAt, isDone = true))
     }
 
     @Update

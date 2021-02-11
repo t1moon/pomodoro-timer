@@ -9,11 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.ListAdapterItem
-import com.fetecom.pomodoro.ui.main.TimerAdapter.Companion.MAX_TIMERS_IN_LIST
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.tasks_fragment_task_item.*
-import kotlin.math.max
-import kotlin.math.min
 
 class TaskAdapter(
     val interactor: Interactor
@@ -66,7 +63,7 @@ class TaskAdapter(
                     true
                 }
                 estimationList.adapter = TimerAdapter().apply {
-                    submitList(estimation, done)
+                    submitList(estimation, completed)
                 }
             }
 

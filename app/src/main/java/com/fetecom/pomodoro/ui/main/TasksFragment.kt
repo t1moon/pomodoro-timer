@@ -3,6 +3,7 @@ package com.fetecom.pomodoro.ui.main
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.observe
@@ -52,7 +53,9 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun initCityList() {
-        taskListView.adapter = taskAdapter
+        with(taskListView) {
+            adapter = taskAdapter
+        }
     }
 
     private fun subscribeOnUpdate() {
