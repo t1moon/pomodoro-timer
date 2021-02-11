@@ -30,6 +30,12 @@ interface TaskDao {
         this.updateTask(updatedTask)
     }
 
+    suspend fun markAsDoneByTaskId(taskId: Int) {
+        val task = getTaskById(taskId)
+        val updatedTask = task.copy(isDone = true)
+        this.updateTask(updatedTask)
+    }
+
     @Update
     suspend fun updateTask(task: TaskDB)
 }

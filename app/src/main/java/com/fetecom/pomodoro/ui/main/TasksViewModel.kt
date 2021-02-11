@@ -67,7 +67,12 @@ class TasksViewModel(
 
     fun addNewTask(title: String, estimation: Int) {
         viewModelScope.launch {
-            tasksRepository.addTask(Task(title = title, estimation = estimationOfAddingTask.value ?: 1))
+            tasksRepository.addTask(
+                Task(
+                    title = title,
+                    estimation = estimationOfAddingTask.value ?: 1
+                )
+            )
             Reporter.reportD("Task has been added: $title")
         }
     }
@@ -95,6 +100,15 @@ class TasksViewModel(
             }
         }
 
+    }
+
+
+    fun onCompleteTask(task: Task) {
+        viewModelScope.launch {
+            tasksRepository.markAsDoneByTaskId(task.id)
+            Reporter.reportD("Task marked as done: ${task.title}")
+            onRefresh()
+        }
     }
 
 

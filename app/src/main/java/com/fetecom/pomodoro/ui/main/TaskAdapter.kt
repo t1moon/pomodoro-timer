@@ -56,11 +56,12 @@ class TaskAdapter(
         fun bind(item: TaskModel) {
             with(item.task) {
                 taskTitle.text = title
+                taskTitle.alpha = if (item.task.isDone) 0.2f else 1f
 
-                taskRoot.setOnClickListener {
+                itemView.setOnClickListener {
                     interactor.onTaskClick(this)
                 }
-                taskRoot.setOnLongClickListener {
+                itemView.setOnLongClickListener {
                     interactor.onTaskLongClick(this)
                     true
                 }

@@ -10,7 +10,10 @@ class TasksRepositoryImpl(
 
     override suspend fun getTodayTasks(): List<Task> {
         return taskDao.getAllTasks()
-            .map { it.toModel() }.take(3)
+            .map { it.toModel() }
+            .sortedBy {
+                it.done
+            }
     }
 
     override suspend fun getBacklogTasks(): List<Task> {
@@ -33,4 +36,7 @@ class TasksRepositoryImpl(
         taskDao.updateDoneInTaskById(taskId)
     }
 
+    override suspend fun markAsDoneByTaskId(taskId: Int) {
+        taskDao.markAsDoneByTaskId(taskId)
+    }
 }

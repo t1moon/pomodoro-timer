@@ -39,6 +39,7 @@
 
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Pomodoro.BottomSheet</item>
         <item name="chipStyle">@style/Widget.Pomodoro.Chip.Choice</item>
+        <item name="materialButtonStyle">@style/Widget.Pomodoro.Button.Main</item>
     </style>
 
     <style name="ThemeOverlay.Pomodoro.BottomSheet" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
@@ -55,6 +56,8 @@
     </style>
 
     <style name="Widget.Pomodoro.Button.Main" parent="Widget.MaterialComponents.Button">
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
     </style>
 
     <style name="Widget.Pomodoro.Button.Estimation" parent="Widget.MaterialComponents.Button.OutlinedButton">

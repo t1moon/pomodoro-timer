@@ -10,10 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="64dp"
         android:background="@drawable/timer_shadow"
         app:bgColor="?attr/colorSurface"
         app:circlePadding="0.06"
@@ -21,7 +19,6 @@
         app:elevationPlay="0"
         app:fgColor="?attr/colorPrimary"
         app:fgColorPause="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,12 +27,12 @@
         app:timerStrokeWidth="4" />
 
     <TextView
-        android:textAppearance="?attr/textAppearanceHeadline4"
         android:id="@+id/chosenTaskTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="351dp"
+        android:textAppearance="?attr/textAppearanceHeadline4"
         app:layout_constraintBottom_toTopOf="@+id/timerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,17 +43,27 @@
         android:id="@+id/timersList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constrainedWidth="true"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:orientation="horizontal"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerView"
         tools:itemCount="5"
         tools:listitem="@layout/tasks_fragment_task_item_timer_item" />
+
+    <Button
+        android:id="@+id/markAsCompleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Mark as complete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

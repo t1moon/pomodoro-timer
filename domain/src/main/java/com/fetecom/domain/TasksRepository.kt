@@ -9,4 +9,5 @@ interface TasksRepository {
     suspend fun editTaskById(taskId: Int, task: Task)
 
     suspend fun addDoneToTaskById(taskId: Int)
+    suspend fun markAsDoneByTaskId(taskId: Int)
 }
