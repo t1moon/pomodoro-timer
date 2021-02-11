@@ -7,5 +7,6 @@ data class Task(
     val title: String,
     val estimation: Int,
     val completed: Int = 0,
-    val isDone: Boolean = false
+    val isDone: Boolean = false,
+    val isToday: Boolean = false
 )

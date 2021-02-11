@@ -11,6 +11,7 @@ data class TaskDB(
     val estimation: Int,
     val completed: Int,
     val isDone: Boolean,
+    val isToday: Boolean,
     val createdAt: Long) {
     companion object {
         fun fromModel(task: Task) = TaskDB(
@@ -19,6 +20,7 @@ data class TaskDB(
             estimation = task.estimation,
             completed = task.completed,
             isDone = task.isDone,
+            isToday = task.isToday,
             createdAt = System.currentTimeMillis()
         )
     }
@@ -29,4 +31,5 @@ fun TaskDB.toModel() = Task(
     title = title,
     estimation = estimation,
     completed = completed,
-    isDone = isDone)
+    isDone = isDone,
+    isToday = isToday)

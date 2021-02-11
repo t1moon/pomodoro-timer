@@ -10,4 +10,5 @@ interface TasksRepository {
 
     suspend fun addDoneToTaskById(taskId: Int)
     suspend fun markAsDoneByTaskId(taskId: Int)
+    suspend fun transferToTodayById(taskId: Int)
 }

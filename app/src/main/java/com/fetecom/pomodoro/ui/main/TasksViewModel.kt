@@ -111,5 +111,13 @@ class TasksViewModel(
         }
     }
 
+    fun onTodayClicked(task: Task) {
+        viewModelScope.launch {
+            tasksRepository.transferToTodayById(task.id)
+            Reporter.reportD("Task has been transferred to today list: ${task.title}")
+            onRefresh()
+        }
+    }
+
 
 }

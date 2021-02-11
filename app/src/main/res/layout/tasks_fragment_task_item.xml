@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/toTodayBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="To do something" />
@@ -36,5 +35,13 @@
         app:layout_constraintTop_toBottomOf="@+id/taskTitle"
         tools:itemCount="3"
         tools:listitem="@layout/tasks_fragment_task_item_timer_item" />
+
+    <Button
+        android:id="@+id/toTodayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

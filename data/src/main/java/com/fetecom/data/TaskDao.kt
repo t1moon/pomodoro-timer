@@ -25,14 +25,16 @@ interface TaskDao {
 
     suspend fun updateDoneInTaskById(taskId: Int) {
         val task = getTaskById(taskId)
-        save(task.copy(createdAt = task.createdAt, completed = task.completed + 1))
+        save(task.copy(completed = task.completed + 1))
     }
 
     suspend fun markAsDoneByTaskId(taskId: Int) {
         val task = getTaskById(taskId)
-        save(task.copy(createdAt = task.createdAt, isDone = true))
+        save(task.copy(isDone = true))
     }
 
-    @Update
-    suspend fun updateTask(task: TaskDB)
+    suspend fun transferToTodayById(taskId: Int) {
+        val task = getTaskById(taskId)
+        save(task.copy(isToday = true))
+    }
 }

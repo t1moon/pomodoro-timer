@@ -75,5 +75,9 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
             viewModel.onTaskEdit(task)
             showTaskDialog()
         }
+
+        override fun onTodayBtn(task: Task) {
+            viewModel.onTodayClicked(task)
+        }
     })
 }

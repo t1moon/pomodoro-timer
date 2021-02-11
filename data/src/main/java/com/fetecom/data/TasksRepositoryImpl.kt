@@ -9,14 +9,17 @@ class TasksRepositoryImpl(
 ) : TasksRepository {
 
     override suspend fun getTodayTasks(): List<Task> {
-        return taskDao.getAllTasks()
-            .map {
-                it.toModel()
+        return taskDao.getAllTasks().map { it.toModel() }
+            .filter {
+                it.isToday
             }
     }
 
     override suspend fun getBacklogTasks(): List<Task> {
         return taskDao.getAllTasks().map { it.toModel() }
+            .filter {
+                !it.isToday
+            }
     }
 
     override suspend fun deleteTaskById(taskId: Int) {
@@ -37,5 +40,9 @@ class TasksRepositoryImpl(
 
     override suspend fun markAsDoneByTaskId(taskId: Int) {
         taskDao.markAsDoneByTaskId(taskId)
+    }
+
+    override suspend fun transferToTodayById(taskId: Int) {
+        taskDao.transferToTodayById(taskId)
     }
 }
