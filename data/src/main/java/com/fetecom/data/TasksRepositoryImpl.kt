@@ -2,7 +2,6 @@ package com.fetecom.data
 
 import com.fetecom.domain.Task
 import com.fetecom.domain.TasksRepository
-import kotlin.random.Random
 
 class TasksRepositoryImpl(
     private val taskDao: TaskDao
@@ -12,6 +11,9 @@ class TasksRepositoryImpl(
         return taskDao.getAllTasks().map { it.toModel() }
             .filter {
                 it.isToday
+            }
+            .filterNot {
+                it.isDone && !it.doneAt.isToday()
             }
     }
 

@@ -30,7 +30,7 @@ interface TaskDao {
 
     suspend fun markAsDoneByTaskId(taskId: Int) {
         val task = getTaskById(taskId)
-        save(task.copy(isDone = true))
+        save(task.copy(isDone = true, doneAt = System.currentTimeMillis()))
     }
 
     suspend fun transferToTodayById(taskId: Int) {
