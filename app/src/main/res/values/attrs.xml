@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TimerViewStyleable">
-        <attr name="bgColor" format="integer" />
-        <attr name="fgColor" format="integer"/>
-        <attr name="fgColorPause" format="integer"/>
-        <attr name="percent" format="integer"/>
-        <attr name="timerStrokeWidth" format="integer"/>
-        <attr name="circlePadding" format="float"/>
-        <attr name="elevationPause" format="integer" />
-        <attr name="elevationPlay" format="integer"/>
+    <declare-styleable name="PomoTimer">
+        <attr name="timerForegroundColor" format="reference"/>
+        <attr name="timerForegroundColorOnPause" format="reference"/>
+        <attr name="statusIconColor" format="reference"/>
+        <attr name="innerCirclePadding" format="dimension"/>
+        <attr name="elevationOnPause" format="dimension" />
+        <attr name="elevationOnPlay" format="dimension" />
+        <attr name="playIcon" format="reference" />
+        <attr name="pauseIcon" format="reference" />
     </declare-styleable>
 </resources>

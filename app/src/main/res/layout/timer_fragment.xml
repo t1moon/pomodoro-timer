@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.fetecom.pomodoro.ui.timer.TimerView
+    <com.fetecom.pomodoro.ui.timer.PomoTimer
         android:id="@+id/timerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="64dp"
-        android:background="@drawable/timer_shadow"
-        app:bgColor="?attr/colorSurface"
-        app:circlePadding="0.06"
-        app:elevationPause="16"
-        app:elevationPlay="0"
-        app:fgColor="?attr/colorPrimary"
-        app:fgColorPause="?attr/colorOnPrimary"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chosenTaskTitle"
-        app:percent="0"
-        app:timerStrokeWidth="4" />
+        android:background="@drawable/timer_bg"
+        app:elevationOnPlay="8dp"
+        app:elevationOnPause="32dp"
+        app:timerForegroundColor="?attr/colorPrimary"
+        app:timerForegroundColorOnPause="@color/color_primary_40"
+        app:statusIconColor="?attr/colorOnPrimary"
+        app:innerCirclePadding="16dp"
+        app:playIcon="@drawable/ic_play"
+        app:pauseIcon="@drawable/ic_pause"/>
 
     <TextView
         android:id="@+id/chosenTaskTitle"

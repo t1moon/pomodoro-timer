@@ -22,7 +22,6 @@ class TimerFragment : Fragment(R.layout.timer_fragment) {
 
 
     private fun initScreen() {
-        timerView.start()
         viewModel.updateCurrentTaskDoneValue()
         observe(viewModel.currentTask) { task ->
             chosenTaskTitle.text = task.title
@@ -32,11 +31,15 @@ class TimerFragment : Fragment(R.layout.timer_fragment) {
             }
             initTimersList(task)
         }
-
     }
 
     private fun initTimersList(task: Task) = TimerAdapter().apply {
             timersList.adapter = this
             submitList(task.estimation, task.completed)
         }
+
+    override fun onDestroyView() {
+        timerView.releaseResources()
+        super.onDestroyView()
+    }
 }
