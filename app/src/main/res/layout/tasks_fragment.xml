@@ -1,81 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.main.TasksFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.TasksFragment">
-
-        <TextView
-            android:id="@+id/todayDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="64dp"
-            android:textAppearance="?attr/textAppearanceOverline"
-            app:layout_constraintStart_toStartOf="@+id/tabLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="12 April, 2021" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/todayDate"
-            app:tabGravity="start"
-            app:tabIndicator="@drawable/tabs_indicator"
-            app:tabIndicatorHeight="10dp"
-            app:tabPaddingBottom="15dp"
-            app:tabPaddingEnd="24dp"
-            app:tabPaddingStart="24dp"
-            app:tabPaddingTop="10dp"
-            app:tabTextAppearance="?attr/textAppearanceHeadline6"
-            app:tabRippleColor="@null">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tabs_today" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tabs_backlog" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/taskListView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-            tools:itemCount="5"
-            tools:listitem="@layout/tasks_fragment_task_item" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addButton"
+    <TextView
+        android:id="@+id/todayDate"
+        android:textAppearance="?attr/textAppearanceBody2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="24dp"
-        android:contentDescription="@string/fab_content_desc"
-        app:srcCompat="@drawable/ic_add_24" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="@+id/tabLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="April 12, 2021" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/todayTitle"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:fontFamily="@font/nunito_bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/todayDate"
+        app:layout_constraintTop_toBottomOf="@id/todayDate"
+        tools:text="Today" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/todayTitle"
+        app:tabGravity="start"
+        app:tabIndicator="@drawable/tabs_indicator"
+        app:tabIndicatorHeight="10dp"
+        app:tabPaddingBottom="15dp"
+        app:tabPaddingEnd="24dp"
+        app:tabPaddingStart="24dp"
+        app:tabPaddingTop="10dp"
+        app:tabRippleColor="@null"
+        app:tabTextAppearance="?attr/textAppearanceHeadline6">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tabs_today" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tabs_backlog" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/taskListView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        tools:itemCount="5"
+        tools:listitem="@layout/tasks_fragment_task_item" />
+
+    <Button
+        style="@style/Widget.Pomodoro.Button.Secondary"
+        android:theme="@style/ThemeOverlay.Button.Rounded"
+        android:id="@+id/addTaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:text="Add task"
+        app:icon="@drawable/ic_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

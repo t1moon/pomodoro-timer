@@ -76,7 +76,7 @@ class TaskAdapter(
         }
     }
 
-    class TaskModel(val task: Task) : ListAdapterItem() {
+    data class TaskModel(val task: Task) : ListAdapterItem() {
         override fun getType() = TASK
         override fun getId() = task.id
     }
@@ -86,7 +86,7 @@ class TaskAdapter(
             oldItem: ListAdapterItem,
             newItem: ListAdapterItem
         ): Boolean {
-            return (oldItem as TaskModel).equals(newItem as TaskModel)
+            return ((oldItem as TaskModel).task).equals((newItem as TaskModel).task)
         }
 
         override fun areItemsTheSame(oldItem: ListAdapterItem, newItem: ListAdapterItem): Boolean {

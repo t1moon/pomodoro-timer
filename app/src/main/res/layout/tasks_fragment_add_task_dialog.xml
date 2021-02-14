@@ -56,30 +56,32 @@
         app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/titleInputLayout" />
 
-    <include
-        android:id="@+id/estimationChips"
-        layout="@layout/tasks_fragment_add_task_dialog_estimation_item"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/estimationList"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/estimationTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/estimationTitle"
+        tools:itemCount="5"
+        tools:listitem="@layout/tasks_fragment_add_task_dialog_estimation_item" />
 
     <Button
         android:id="@+id/addOrEditButton"
-        style="@style/Widget.Pomodoro.Button.Main"
+        style="@style/Widget.Pomodoro.Button.Primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/estimationChips"
-        app:layout_constraintStart_toStartOf="@+id/estimationChips"
-        app:layout_constraintTop_toBottomOf="@+id/estimationChips"
+        app:layout_constraintEnd_toEndOf="@+id/estimationList"
+        app:layout_constraintStart_toStartOf="@+id/estimationList"
+        app:layout_constraintTop_toBottomOf="@+id/estimationList"
         tools:text="Add" />
 
 

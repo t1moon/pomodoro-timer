@@ -11,12 +11,11 @@ import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.hide
 import com.fetecom.pomodoro.common.show
+import com.fetecom.pomodoro.ui.main.EstimationAdapter.Companion.ESTIMATION_DEFAULT_NUMBER
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.tasks_fragment_add_task_dialog.*
-import kotlinx.android.synthetic.main.tasks_fragment_add_task_dialog_estimation_item.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
@@ -51,11 +50,15 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
         init()
     }
 
+    private val estimationAdapter = EstimationAdapter()
     private fun init() {
         viewModel.editableTask.value?.let {
             initTask(it)
         } ?: initEmpty()
         titleInput.requestFocus()
+        estimationList.adapter = estimationAdapter.apply {
+            updateListWithChosenNumber(ESTIMATION_DEFAULT_NUMBER)
+        }
     }
 
 
@@ -67,7 +70,7 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
             viewModel.editTask(
                 task.id,
                 titleInput.text.toString(),
-                0
+                estimationAdapter.chosenNumber
             )
             dismiss()
         }
@@ -75,41 +78,27 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
             viewModel.deleteEditableTask()
             dismiss()
         }
-        val checkedChipId = chipGroup.checkedChipId
-        initEstimationChips(checkedChipId)
     }
 
     private fun initEmpty() {
         deleteIcon.hide()
         addOrEditButton.text = "Add"
-
         addOrEditButton.setOnClickListener {
             viewModel.addNewTask(
                 title = titleInput.text.toString(),
-                estimation = 0
+                estimation = estimationAdapter.chosenNumber
             )
             dismiss()
         }
-        initEstimationChips()
     }
 
-    private fun initEstimationChips(checkedChipId: Int = 1) {
-        for (i in 1..6) {
-            chipGroup.addView(Chip(requireContext()).apply {
-                text = "$i"
-                isChecked = i == checkedChipId
-            })
-        }
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            viewModel.estimationOfAddingTask.value = checkedId
-        }
-    }
 
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         onAddOrEdit()
     }
+
     lateinit var modalBottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     override fun onStart() {
         super.onStart()

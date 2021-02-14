@@ -7,4 +7,8 @@
     <color name="brand_blue">#A6DDF7</color>
     <color name="brand_gray">#606D8A</color>
     <color name="brand_gray_dark">#404E62</color>
+
+    <color name="brand_yellow">#FBD129</color>
+    <color name="brand_yellow_dark">#E4AB17</color>
+
 </resources>

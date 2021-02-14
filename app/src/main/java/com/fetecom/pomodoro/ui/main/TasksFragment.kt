@@ -32,7 +32,7 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
 
     private fun setupUI() {
         todayDate.text = "12 April, 2021"
-        addButton.setOnClickListener {
+        addTaskBtn.setOnClickListener {
             showTaskDialog()
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
