@@ -53,13 +53,22 @@
     <style name="ShapeAppearance.Pomodoro.BottomSheetDialog.Rounded" parent="@style/ShapeAppearance.MaterialComponents.LargeComponent">
     </style>
 
-    <style name="ThemeOverlay.Button.Rounded" parent="">
+    <style name="ThemeOverlay.Button.Rounded.16" parent="">
         <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Rounded</item>
+    </style>
+
+    <style name="ThemeOverlay.Button.Circle" parent="">
+        <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Circle</item>
     </style>
 
     <style name="ThemeOverlay.ShapeAppearance.Rounded" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ThemeOverlay.ShapeAppearance.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">1000dp</item>
     </style>
 
     <style name="Widget.Pomodoro.Button.Primary" parent="Widget.MaterialComponents.Button">
