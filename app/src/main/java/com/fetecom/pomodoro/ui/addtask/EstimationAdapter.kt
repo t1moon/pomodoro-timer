@@ -1,4 +1,4 @@
-package com.fetecom.pomodoro.ui.main
+package com.fetecom.pomodoro.ui.addtask
 
 import android.view.LayoutInflater
 import android.view.View

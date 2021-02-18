@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/timerFragment"
-        android:name="com.fetecom.pomodoro.ui.timer.TimerFragment"
+        android:name="com.fetecom.pomodoro.ui.timer.PomoTimerFragment"
         android:label="TimerFragment"
         tools:layout="@layout/timer_fragment"/>
 </navigation>

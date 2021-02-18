@@ -1,4 +1,4 @@
-package com.fetecom.pomodoro.ui.main
+package com.fetecom.pomodoro.ui.addtask
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -11,7 +11,8 @@ import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.hide
 import com.fetecom.pomodoro.common.show
-import com.fetecom.pomodoro.ui.main.EstimationAdapter.Companion.ESTIMATION_DEFAULT_NUMBER
+import com.fetecom.pomodoro.ui.addtask.EstimationAdapter.Companion.ESTIMATION_DEFAULT_NUMBER
+import com.fetecom.pomodoro.ui.main.TasksViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

@@ -14,9 +14,23 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.ImageViewCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import com.fetecom.pomodoro.R
+import com.fetecom.pomodoro.common.ViewModelCustomView
+import com.fetecom.pomodoro.observe
 
-class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), View.OnClickListener {
+class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), View.OnClickListener, ViewModelCustomView {
+    override val viewModel = PomoTimerViewModel()
+
+    override fun onLifecycleOwnerAttached(lifecycleOwner: LifecycleOwner) {
+        lifecycleOwner.observe(viewModel.currentProgress) {
+            progressInPercent = it
+            invalidate()
+        }
+    }
+
+
     companion object {
         const val START_ANGLE = 270f
         const val PROGRESS_MULTIPLIER = 3.6f

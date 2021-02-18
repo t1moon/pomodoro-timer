@@ -11,15 +11,14 @@ import com.fetecom.pomodoro.ui.main.TimerAdapter
 import kotlinx.android.synthetic.main.timer_fragment.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class TimerFragment : Fragment(R.layout.timer_fragment) {
+class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
     private val viewModel: TasksViewModel by sharedViewModel()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initScreen()
+        timerView.onLifecycleOwnerAttached(viewLifecycleOwner)
     }
-
-
 
     private fun initScreen() {
         viewModel.updateCurrentTaskDoneValue()
@@ -42,4 +41,5 @@ class TimerFragment : Fragment(R.layout.timer_fragment) {
         timerView.releaseResources()
         super.onDestroyView()
     }
+
 }
