@@ -57,7 +57,7 @@ open class TaskDialogFragment : BottomSheetDialogFragment() {
             initTask(it)
         } ?: initEmpty()
         titleInput.requestFocus()
-        estimationList.adapter = estimationAdapter.apply {
+        timerList.adapter = estimationAdapter.apply {
             updateListWithChosenNumber(ESTIMATION_DEFAULT_NUMBER)
         }
     }

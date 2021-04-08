@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.ListAdapterItem
-import com.fetecom.pomodoro.common.setVisible
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.tasks_fragment_task_item.*
 
@@ -63,7 +62,7 @@ class TaskAdapter(
                     interactor.onTaskLongClick(this)
                     true
                 }
-                estimationList.adapter = TimerAdapter().apply {
+                timerList.adapter = TimerAdapter().apply {
                     submitList(estimation, completed)
                 }
             }

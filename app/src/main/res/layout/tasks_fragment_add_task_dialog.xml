@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/titleInputLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/estimationList"
+        android:id="@+id/timerList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -84,7 +84,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estimationList"
+        app:layout_constraintTop_toBottomOf="@+id/timerList"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:icon="@drawable/ic_add" />

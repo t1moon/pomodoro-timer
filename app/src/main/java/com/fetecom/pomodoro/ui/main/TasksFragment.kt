@@ -35,7 +35,6 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun setupUI() {
-        todayDate.text = LocalDate.now().toString("dd MMMM, yyyy")
         addTaskBtn.setOnClickListener {
             showTaskDialog()
         }

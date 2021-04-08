@@ -6,31 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/task_completed_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/taskTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="?attr/textAppearanceBody1"
+        app:layout_constraintEnd_toStartOf="@+id/timerList"
+        app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="To do something" />
+        tools:text="Finish prototype" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/estimationList"
-        android:layout_width="0dp"
+        android:id="@+id/timerList"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/taskTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/taskTitle"
-        app:layout_constraintTop_toBottomOf="@+id/taskTitle"
+        app:layout_constraintTop_toTopOf="@+id/taskTitle"
         tools:itemCount="3"
         tools:listitem="@layout/tasks_fragment_task_item_timer_item" />
 
