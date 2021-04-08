@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fetecom.data.isToday
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.ListAdapterItem
-import com.fetecom.pomodoro.common.setVisible
+import com.fetecom.pomodoro.common.colorThemed
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.tasks_fragment_date_item.*
 import org.joda.time.LocalDate
@@ -19,15 +19,10 @@ class DatesAdapter(
 ) : ListAdapter<ListAdapterItem, RecyclerView.ViewHolder>(ItemDiff()) {
     val innerInteractor: Interactor
 
-    private val listOfDatesThisWeek = listOf(
-        LocalDate.now().withDayOfWeek(1),
-        LocalDate.now().withDayOfWeek(2),
-        LocalDate.now().withDayOfWeek(3),
-        LocalDate.now().withDayOfWeek(4),
-        LocalDate.now().withDayOfWeek(5),
-        LocalDate.now().withDayOfWeek(6),
-        LocalDate.now().withDayOfWeek(7)
-    )
+    private val listOfDatesThisWeek = (1..60).fold(mutableListOf(LocalDate.now()), { dateList, dayIndexToAdd: Int ->
+        dateList.add(LocalDate.now().plusDays(dayIndexToAdd))
+        dateList
+    })
 
     init {
         innerInteractor = object : Interactor {
@@ -35,6 +30,7 @@ class DatesAdapter(
                 updateListWithChosenNumber(index)
             }
         }
+
     }
 
     fun updateListWithChosenNumber(index: Int? = null) {
@@ -88,7 +84,17 @@ class DatesAdapter(
         RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun bind(item: DateModel) {
-            dot.setVisible(item.chosen)
+            if (item.chosen) {
+                backgroundColor.setBackgroundResource(R.drawable.estimation_bg_active)
+                month.setTextColor(colorThemed(R.attr.colorOnPrimary))
+                day.setTextColor(colorThemed(R.attr.colorOnPrimary))
+                dot.setBackgroundResource(R.drawable.ic_dot_on_primary)
+            } else {
+                backgroundColor.setBackgroundResource(R.drawable.estimation_bg_inactive)
+                month.setTextColor(colorThemed(R.attr.colorOnSurface))
+                day.setTextColor(colorThemed(R.attr.colorOnSurface))
+                dot.setBackgroundResource(R.drawable.ic_dot)
+            }
             month.text = item.date.toString("EEE")
             day.text = item.date.toString("dd")
             itemView.setOnClickListener {
