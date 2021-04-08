@@ -23,7 +23,6 @@ class TaskAdapter(
     interface Interactor {
         fun onTaskClick(task: Task)
         fun onTaskLongClick(task: Task)
-        fun onTodayBtn(task: Task)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -66,10 +65,6 @@ class TaskAdapter(
                 }
                 estimationList.adapter = TimerAdapter().apply {
                     submitList(estimation, completed)
-                }
-                toTodayBtn.setVisible(!isToday)
-                toTodayBtn.setOnClickListener {
-                    interactor.onTodayBtn(item.task)
                 }
             }
 

@@ -10,4 +10,6 @@ java {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'joda-time:joda-time:2.10.10'
+
 }

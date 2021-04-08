@@ -1,5 +1,6 @@
 package com.fetecom.domain
 
+import org.joda.time.LocalDate
 import kotlin.random.Random
 
 data class Task(
@@ -9,5 +10,6 @@ data class Task(
     val completed: Int = 0,
     val isDone: Boolean = false,
     val doneAt: Long = 0,
-    val isToday: Boolean = false
+    val isToday: Boolean = false,
+    val created: LocalDate = LocalDate.now()
 )

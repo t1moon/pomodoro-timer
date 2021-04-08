@@ -1,7 +1,10 @@
 package com.fetecom.domain
 
+import org.joda.time.LocalDate
+
 interface TasksRepository {
 
+    suspend fun getTasksByDate(date: LocalDate): List<Task>
     suspend fun getTodayTasks(): List<Task>
     suspend fun getBacklogTasks(): List<Task>
     suspend fun addTask(task: Task)

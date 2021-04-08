@@ -2,11 +2,18 @@ package com.fetecom.data
 
 import com.fetecom.domain.Task
 import com.fetecom.domain.TasksRepository
+import org.joda.time.LocalDate
 
 class TasksRepositoryImpl(
     private val taskDao: TaskDao
 ) : TasksRepository {
 
+    override suspend fun getTasksByDate(date: LocalDate): List<Task> {
+        return taskDao.getAllTasks().map { it.toModel() }
+            .filter {
+                it.created == date
+            }
+    }
     override suspend fun getTodayTasks(): List<Task> {
         return taskDao.getAllTasks().map { it.toModel() }
             .filter {

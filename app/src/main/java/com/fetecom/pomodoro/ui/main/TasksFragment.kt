@@ -3,12 +3,15 @@ package com.fetecom.pomodoro.ui.main
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.fetecom.data.isToday
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.observe
 import com.fetecom.pomodoro.ui.addtask.TaskDialogFragment
+import com.fetecom.pomodoro.ui.main.date.DatesAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.tasks_fragment.*
+import org.joda.time.LocalDate
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class TasksFragment : Fragment(R.layout.tasks_fragment) {
@@ -21,7 +24,8 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
 
     private fun initScreen() {
         setupUI()
-        initCityList()
+        initTaskList()
+        initDatesList()
         subscribeOnUpdate()
     }
 
@@ -31,17 +35,10 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
     }
 
     private fun setupUI() {
-        todayDate.text = "12 April, 2021"
+        todayDate.text = LocalDate.now().toString("dd MMMM, yyyy")
         addTaskBtn.setOnClickListener {
             showTaskDialog()
         }
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.selectTab(tab?.position ?: 0)
-            }
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-        })
     }
 
     private fun showTaskDialog() {
@@ -52,9 +49,20 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
         }.show(requireActivity().supportFragmentManager, TaskDialogFragment.TAG)
     }
 
-    private fun initCityList() {
+    private fun initTaskList() {
         with(taskListView) {
             adapter = taskAdapter
+        }
+    }
+    private fun initDatesList() {
+        with(datesListView) {
+            adapter = DatesAdapter(object : DatesAdapter.OuterInteractor {
+                override fun onDateChosen(date: LocalDate) {
+                    viewModel.onDateChosen(date)
+                }
+            }).apply {
+                updateListWithChosenNumber()
+            }
         }
     }
 
@@ -75,9 +83,6 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
             viewModel.onTaskEdit(task)
             showTaskDialog()
         }
-
-        override fun onTodayBtn(task: Task) {
-            viewModel.onTodayClicked(task)
-        }
     })
+
 }

@@ -6,6 +6,7 @@ import com.fetecom.domain.Task
 import com.fetecom.domain.TasksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.joda.time.LocalDate
 
 class TasksViewModel(
     private val tasksRepository: TasksRepository
@@ -15,33 +16,19 @@ class TasksViewModel(
         data class Success(val taskModels: List<TaskAdapter.TaskModel>) : ScreenState()
     }
 
+    private val selectedDate: MutableLiveData<LocalDate> = liveData {
+        emit(LocalDate.now())
+    } as MutableLiveData<LocalDate>
 
-    private val selectedTab: MutableLiveData<TabType> = liveData {
-        emit(TabType.Today)
-    } as MutableLiveData<TabType>
+    private val taskList = liveData<List<Task>> { } as MutableLiveData
 
-    val taskList = liveData<List<Task>> { } as MutableLiveData
-    val screenState = Transformations.switchMap(selectedTab) {
+    val screenState = Transformations.switchMap(selectedDate) {
         liveData(Dispatchers.IO) {
-            val tasks = when (it) {
-                TabType.Today -> tasksRepository.getTodayTasks()
-                TabType.Backlog -> tasksRepository.getBacklogTasks()
-                null -> tasksRepository.getTodayTasks()
-            }
+            val tasks = tasksRepository.getTasksByDate(it)
             taskList.postValue(tasks)
             Reporter.reportD("Tasks have been received: $tasks")
-
             emit(ScreenState.Success(tasks.map { TaskAdapter.TaskModel(it) }))
         }
-    }
-
-    fun selectTab(tabPosition: Int) {
-        selectedTab.value = if (tabPosition == 0) TabType.Today else TabType.Backlog
-        Reporter.reportD("Tab is selected: ${selectedTab.value.toString()}")
-    }
-
-    enum class TabType {
-        Today, Backlog
     }
 
     val currentTask = liveData<Task> {} as MutableLiveData
@@ -89,7 +76,7 @@ class TasksViewModel(
     }
 
     fun onRefresh() {
-        selectedTab.value = selectedTab.value
+        selectedDate.value = selectedDate.value
     }
 
     fun updateCurrentTaskDoneValue() {
@@ -111,12 +98,10 @@ class TasksViewModel(
         }
     }
 
-    fun onTodayClicked(task: Task) {
-        viewModelScope.launch {
-            tasksRepository.transferToTodayById(task.id)
-            Reporter.reportD("Task has been transferred to today list: ${task.title}")
-            onRefresh()
-        }
+    fun onDateChosen(date: LocalDate) {
+        Reporter.reportD("Date is selected: ${date.toString("MMM dd")}")
+        selectedDate.value = date
+        onRefresh()
     }
 
 

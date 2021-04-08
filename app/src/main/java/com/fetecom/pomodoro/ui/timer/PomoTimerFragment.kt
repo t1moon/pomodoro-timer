@@ -18,6 +18,7 @@ class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
         super.onActivityCreated(savedInstanceState)
         initScreen()
         timerView.onLifecycleOwnerAttached(viewLifecycleOwner)
+        timerView.onLifecycle(this.lifecycle)
     }
 
     private fun initScreen() {
@@ -36,10 +37,5 @@ class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
             timersList.adapter = this
             submitList(task.estimation, task.completed)
         }
-
-    override fun onDestroyView() {
-        timerView.releaseResources()
-        super.onDestroyView()
-    }
 
 }

@@ -3,12 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="brand_blue_dark">#03081A</color>
-    <color name="brand_blue">#A6DDF7</color>
+
     <color name="brand_gray">#606D8A</color>
     <color name="brand_gray_dark">#404E62</color>
 
-    <color name="brand_yellow">#FBD129</color>
-    <color name="brand_yellow_dark">#E4AB17</color>
+
+    <color name="brand_blue_dark">#0E1B3E</color>
+    <color name="brand_blue">#2D447E</color>
+
+
+    <color name="brand_red">#B03939</color>
+    <color name="brand_red_dark">#702323</color>
 
 </resources>

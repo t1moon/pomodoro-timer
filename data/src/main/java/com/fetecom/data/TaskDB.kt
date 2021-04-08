@@ -3,6 +3,8 @@ package com.fetecom.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.fetecom.domain.Task
+import org.joda.time.LocalDate
+import java.util.*
 
 @Entity
 data class TaskDB(
@@ -34,4 +36,6 @@ fun TaskDB.toModel() = Task(
     completed = completed,
     isDone = isDone,
     doneAt = doneAt,
-    isToday = isToday)
+    isToday = isToday,
+    created = LocalDate.fromDateFields(Date(createdAt))
+)

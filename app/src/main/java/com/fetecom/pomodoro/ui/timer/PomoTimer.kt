@@ -2,32 +2,69 @@ package com.fetecom.pomodoro.ui.timer
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.BounceInterpolator
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.widget.ImageViewCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.OnLifecycleEvent
+import com.fetecom.data.Reporter
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.common.ViewModelCustomView
 import com.fetecom.pomodoro.observe
+import java.lang.IllegalStateException
 
-class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), View.OnClickListener, ViewModelCustomView {
+class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs),
+    View.OnClickListener, View.OnLongClickListener, ViewModelCustomView, LifecycleObserver {
     override val viewModel = PomoTimerViewModel()
 
+    override fun onLifecycle(lifecycle: Lifecycle) {
+        lifecycle.addObserver(this)
+    }
+
     override fun onLifecycleOwnerAttached(lifecycleOwner: LifecycleOwner) {
-        lifecycleOwner.observe(viewModel.currentProgress) {
-            progressInPercent = it
-            invalidate()
+        lifecycleOwner.observe(viewModel.newProgress) {
+            updateProgress(it)
         }
+        lifecycleOwner.observe(viewModel.currentState) {
+            when (it) {
+                TimerState.INIT -> setFinishState(animate = false, playSound = false)
+                TimerState.START -> setPlayState(isStarting = true)
+                TimerState.PAUSED -> setPauseState()
+                TimerState.PLAY -> setPlayState(isStarting = false)
+                TimerState.FINISHED -> setFinishState()
+                else -> throw IllegalStateException("This type doesn't exist")
+            }
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        viewModel.onInit()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun releaseResources() {
+        Reporter.reportD("releaseResources")
+        soundCustom.release()
+        viewModel.releaseTimer()
+    }
+
+
+    override fun onClick(v: View?) {
+        viewModel.onClick()
+    }
+
+    override fun onLongClick(v: View?): Boolean {
+        viewModel.onLongClick()
+        Reporter.reportD("onLongClick")
+        return true
     }
 
 
@@ -61,7 +98,6 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
     private var pauseIcon: Drawable?
 
     // STATE
-    private var progressInPercent: Float = 100f
     private var showingPlayIcon: Boolean = true
     private var showingPauseIcon: Boolean = false
 
@@ -92,8 +128,10 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
                         context,
                         R.drawable.ic_pause
                     )
-                playIcon?.colorFilter = PorterDuffColorFilter(statusIconColor, PorterDuff.Mode.SRC_ATOP)
-                pauseIcon?.colorFilter = PorterDuffColorFilter(statusIconColor, PorterDuff.Mode.SRC_ATOP)
+                playIcon?.colorFilter =
+                    PorterDuffColorFilter(statusIconColor, PorterDuff.Mode.SRC_ATOP)
+                pauseIcon?.colorFilter =
+                    PorterDuffColorFilter(statusIconColor, PorterDuff.Mode.SRC_ATOP)
             } finally {
                 recycle()
             }
@@ -121,8 +159,10 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
         val centerIconWidth = (w / 2)
 
         timerForegroundOval =
-            RectF(0f + innerCirclePadding, 0f + innerCirclePadding,
-                w.toFloat() - innerCirclePadding, h.toFloat() - innerCirclePadding)
+            RectF(
+                0f + innerCirclePadding, 0f + innerCirclePadding,
+                w.toFloat() - innerCirclePadding, h.toFloat() - innerCirclePadding
+            )
 
         statusIcon = Rect(
             (centerX - centerIconWidth / 2).toInt(),
@@ -146,7 +186,7 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
         canvas.drawArc(
             timerForegroundOval,
             START_ANGLE,
-            progressInPercent * PROGRESS_MULTIPLIER,
+            viewModel.currentProgress * PROGRESS_MULTIPLIER,
             true,
             timerForegroundPaint
         )
@@ -163,29 +203,25 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
     }
 
 
-    private var stopped = true
-    private var playing = false
-    fun setPlayState(withAnimation: Boolean = true) {
-        stopped = false
-        playing = true
+    private fun setPlayState(isStarting: Boolean = true) {
         hideIcon()
         toggle(true)
-        if (withAnimation)
-            animateStarting()
+//        if (isStarting)
+//            animateStarting()
         playSound()
     }
 
-    fun setPauseState() {
-        playing = false
+    private fun setPauseState() {
         showPauseIcon()
         toggle(false)
     }
 
-    fun setFinishState(withAnimation: Boolean = true) {
+    private fun setFinishState(animate: Boolean = true, playSound: Boolean = true) {
         showPlayIcon()
         toggle(false)
-        playSound()
-        if (withAnimation)
+        if (playSound)
+            playSound()
+        if (animate)
             animateFinishing()
     }
 
@@ -219,19 +255,17 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
         ValueAnimator.ofFloat(0f, 100f).apply {
             duration = ANIMATION_TIMER_START
             addUpdateListener {
-                progressInPercent = it.animatedValue as Float
-                invalidate()
+                viewModel.updateProgress(it.animatedValue as Float)
             }
             start()
         }
     }
 
     private fun animateFinishing() {
-        ValueAnimator.ofFloat(progressInPercent, 0f).apply {
+        ValueAnimator.ofFloat(viewModel.currentProgress, 0f).apply {
             duration = ANIMATION_TIMER_FINISH
             addUpdateListener {
-                progressInPercent = it.animatedValue as Float
-                invalidate()
+                viewModel.updateProgress(it.animatedValue as Float)
             }
             start()
         }
@@ -273,28 +307,18 @@ class PomoTimer(context: Context, attrs: AttributeSet) : View(context, attrs), V
         }
     }
 
-    fun updateProgress(newProgress: Int) {
-        if (progressInPercent < newProgress)
-            return
-        ValueAnimator.ofFloat(progressInPercent, newProgress.toFloat()).apply {
+    private fun updateProgress(newProgress: Float) {
+//        if (viewModel.currentProgress < newProgress)
+//            return
+
+        ValueAnimator.ofFloat(viewModel.currentProgress, newProgress).apply {
             duration = UPDATE_PROGRESS_DURATION
             addUpdateListener {
-                progressInPercent = it.animatedValue as Float
+                viewModel.currentProgress = it.animatedValue as Float
+                Reporter.reportD("Current: ${viewModel.currentProgress}")
                 invalidate()
             }
             start()
         }
     }
-
-    override fun onClick(v: View?) {
-        if (!playing)
-            setPlayState(withAnimation = stopped)
-        else
-            setPauseState()
-    }
-
-    fun releaseResources() {
-        soundCustom.release()
-    }
-
 }
