@@ -7,17 +7,32 @@ import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.observe
 import com.fetecom.pomodoro.ui.main.TasksViewModel
 import com.fetecom.pomodoro.ui.main.TimerAdapter
+import kotlinx.android.synthetic.main.component_timer.*
 import kotlinx.android.synthetic.main.tasks_fragment_task_item.*
+import kotlinx.android.synthetic.main.timer_fragment.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
     private val viewModel: TasksViewModel by sharedViewModel()
+    private val pomoTimerViewModel: PomoTimerViewModel by viewModel()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initScreen()
-//        timerView.onLifecycleOwnerAttached(viewLifecycleOwner)
-//        timerView.onLifecycle(this.lifecycle)
+        initTimer()
+    }
+
+    fun initTimer() {
+        timerLayout.setOnClickListener {
+            pomoTimerViewModel.onClick()
+        }
+        observe(pomoTimerViewModel.minutes) {
+            minutes.text = it
+        }
+        observe(pomoTimerViewModel.seconds) {
+            seconds.text = it
+        }
     }
 
     private fun initScreen() {

@@ -6,56 +6,73 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.fetecom.data.Reporter
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ticker
-import org.joda.time.LocalDateTime
+import java.util.concurrent.TimeUnit
 
 class PomoTimerViewModel : ViewModel() {
 
-    private val _currentProgress = liveData {
-        emit(0f)
+    val focusTimeInMs = TimeUnit.MINUTES.toMillis(25)
+    val focusTimeInSec = TimeUnit.MINUTES.toSeconds(25).toInt()
+    val breakTimeInMs = TimeUnit.MINUTES.toMillis(5)
+    val longBreakTimeInMs = TimeUnit.MINUTES.toMillis(25)
+
+
+    val currentState = liveData<TimerState> {
+        emit(TimerState.INIT)
     } as MutableLiveData
-    var currentProgress = _currentProgress.value ?: 100f
 
-    val newProgress = liveData<Float> { } as MutableLiveData
-    val currentState = liveData<TimerState> {} as MutableLiveData
+    val minutes = liveData<String> { } as MutableLiveData
+    val seconds = liveData<String> { } as MutableLiveData
+    val timeIsUp = liveData<Boolean> { } as MutableLiveData
+    private val timeLeftInMs = liveData<Long> { } as MutableLiveData
 
+    init {
+        timeLeftInMs.value = focusTimeInMs
+        setMinAndSec(focusTimeInMs)
+    }
+
+    private fun startTimer() {
+        viewModelScope.launch {
+            repeat(focusTimeInSec) {
+                timeLeftInMs.value?.let {
+                    setMinAndSec(it)
+                    val newValue = it - 1000L
+                    if (newValue < 0) {
+                        timeIsUp.value = true
+                        cancel()
+                    }
+                    else
+                        timeLeftInMs.value = newValue
+                }
+                delay(1000L)
+            }
+        }
+    }
+
+    private fun setMinAndSec(it: Long) {
+        val timeLeftInMinutes = TimeUnit.MILLISECONDS.toMinutes(it)
+        val timeLeftInSeconds = TimeUnit.MILLISECONDS.toSeconds(it)
+        val leftMinutesInSeconds = TimeUnit.MINUTES.toSeconds(timeLeftInMinutes)
+        minutes.value = String.format("%02d", timeLeftInMinutes)
+        seconds.value = String.format("%02d", timeLeftInSeconds - leftMinutesInSeconds)
+    }
 
     fun onClick() {
-        Reporter.reportD("Change status from ${currentState.value}")
-        val newState = when (currentState.value) {
-            TimerState.INIT -> TimerState.START
-            TimerState.FINISHED -> TimerState.START
-            TimerState.START -> TimerState.PAUSED
-            TimerState.PLAY -> TimerState.PAUSED
-            TimerState.PAUSED -> TimerState.PLAY
-            else -> throw IllegalStateException("This type doesn't exist")
-        }
-        currentState.value = newState
-        Reporter.reportD("Changed status to :${currentState.value}")
-    }
+//        Reporter.reportD("Change status from ${currentState.value}")
+        startTimer()
 
-    fun onLongClick() {
-        currentState.value = TimerState.FINISHED
-    }
+//        val newState = when (currentState.value) {
+//            TimerState.INIT -> TimerState.START
+//            TimerState.FINISHED -> TimerState.START
+//            TimerState.START -> TimerState.PAUSED
+//            TimerState.PLAY -> TimerState.PAUSED
+//            TimerState.PAUSED -> TimerState.PLAY
+//            else -> throw IllegalStateException("This type doesn't exist")
+//        }
+//        if (newState == TimerState.START)
 
-    private val timerScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    fun onInit() {
-        currentState.value = TimerState.INIT
-        timerScope.launch {
-                repeat(100) { index ->
-                    delay(1000L)
-                    updateProgress(100f - index)
-                }
-        }
-    }
 
-    fun updateProgress(newProgress: Float) {
-        Reporter.reportD("New timer progress: $newProgress")
-        this.newProgress.postValue(newProgress)
-    }
-
-    fun releaseTimer() {
-        timerScope.cancel()
+//        currentState.value = newState
+//        Reporter.reportD("Changed status to :${currentState.value}")
     }
 }
 
