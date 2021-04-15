@@ -54,7 +54,10 @@ class TaskAdapter(
             with(item.task) {
                 taskTitle.text = title
                 taskTitle.alpha = if (item.task.isDone) 0.2f else 1f
-
+                if (item.task.isDone)
+                    isCompleted.setBackgroundResource(R.drawable.task_done_view)
+                else
+                    isCompleted.setBackgroundResource(R.drawable.task_not_done_view)
                 itemView.setOnClickListener {
                     interactor.onTaskClick(this)
                 }

@@ -5,65 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.fetecom.pomodoro.ui.timer.PomoTimer
-        android:id="@+id/timerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="64dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chosenTaskTitle"
-        android:background="@drawable/timer_bg"
-        app:elevationOnPlay="8dp"
-        app:elevationOnPause="32dp"
-        app:timerForegroundColor="?attr/colorPrimary"
-        app:timerForegroundColorOnPause="@color/color_primary_40"
-        app:statusIconColor="?attr/colorOnPrimary"
-        app:innerCirclePadding="16dp"
-        app:playIcon="@drawable/ic_play"
-        app:pauseIcon="@drawable/ic_pause"/>
 
     <TextView
-        android:id="@+id/chosenTaskTitle"
+        android:id="@+id/header"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/header_margin_start"
+        android:layout_marginTop="@dimen/header_margin_top"
+        android:text="Task"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <include
+        android:id="@+id/taskLayout"
+        layout="@layout/tasks_fragment_task_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <include
+        android:id="@+id/timerLayout"
+        layout="@layout/component_timer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="351dp"
-        android:textAppearance="?attr/textAppearanceHeadline4"
-        app:layout_constraintBottom_toTopOf="@+id/timerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Do some task" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/timersList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerView"
-        tools:itemCount="5"
-        tools:listitem="@layout/tasks_fragment_task_item_timer_item" />
+        app:layout_constraintTop_toBottomOf="@+id/taskLayout" />
 
     <Button
-        android:id="@+id/markAsCompleteBtn"
+        android:id="@+id/breakBtn"
+        style="@style/Widget.Pomodoro.Button.TimerMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Mark as complete"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Break"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/focusBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerLayout" />
+
+    <Button
+        android:id="@+id/focusBtn"
+        style="@style/Widget.Pomodoro.Button.TimerMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Focus"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/longBreakBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/breakBtn"
+        app:layout_constraintTop_toTopOf="@+id/breakBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/breakBtn"/>
+
+    <Button
+        android:id="@+id/longBreakBtn"
+        style="@style/Widget.Pomodoro.Button.TimerMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Long break"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/focusBtn"
+        app:layout_constraintTop_toTopOf="@+id/focusBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/focusBtn" />
+
+    <!--    <com.fetecom.pomodoro.ui.timer.PomoTimer-->
+    <!--        android:id="@+id/timerView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginStart="64dp"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:layout_marginEnd="64dp"-->
+    <!--        app:layout_constraintDimensionRatio="1:1"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/taskLayout"-->
+    <!--        android:background="@drawable/timer_bg"-->
+    <!--        app:elevationOnPlay="8dp"-->
+    <!--        app:elevationOnPause="32dp"-->
+    <!--        app:timerForegroundColor="?attr/colorPrimary"-->
+    <!--        app:timerForegroundColorOnPause="@color/color_primary_40"-->
+    <!--        app:statusIconColor="?attr/colorOnPrimary"-->
+    <!--        app:innerCirclePadding="16dp"-->
+    <!--        app:playIcon="@drawable/ic_play"-->
+    <!--        app:pauseIcon="@drawable/ic_pause"/>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

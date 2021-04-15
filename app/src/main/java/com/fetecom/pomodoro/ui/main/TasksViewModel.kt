@@ -5,6 +5,7 @@ import com.fetecom.data.Reporter
 import com.fetecom.domain.Task
 import com.fetecom.domain.TasksRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
@@ -92,6 +93,7 @@ class TasksViewModel(
 
     fun onCompleteTask(task: Task) {
         viewModelScope.launch {
+            delay(1000L)
             tasksRepository.markAsDoneByTaskId(task.id)
             Reporter.reportD("Task marked as done: ${task.title}")
             onRefresh()

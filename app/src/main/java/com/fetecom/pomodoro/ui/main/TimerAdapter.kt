@@ -50,12 +50,12 @@ class TimerAdapter : ListAdapter<ListAdapterItem, RecyclerView.ViewHolder>(ItemD
     inner class TimerHolder(override val containerView: View)
         : RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(item: TimerModel) {
-            val timerRes = if (item.isEnabled)
-                R.drawable.ic_countdown
+            val timerAlpha = if (item.isEnabled)
+                1f
             else
-                R.drawable.ic_countdown
+                0.3f
 
-            timerIcon.setBackgroundResource(timerRes)
+            estimationDot.alpha = timerAlpha
         }
     }
     class TimerModel(val isEnabled: Boolean) : ListAdapterItem() {

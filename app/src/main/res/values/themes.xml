@@ -22,18 +22,18 @@
 
         <!--Typography-->
         <item name="textAppearanceBody1">@style/TextAppearance.Pomodoro.Body1</item>
-        <item name="textAppearanceHeadline6">@style/TextAppearance.Pomodoro.Headline6</item>
-        <item name="textAppearanceCaption">@style/TextAppearance.Pomodoro.Caption</item>
         <item name="textAppearanceBody2">@style/TextAppearance.Pomodoro.Body2</item>
-
+        <item name="textAppearanceCaption">@style/TextAppearance.Pomodoro.Caption</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Pomodoro.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Pomodoro.Subtitle2</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Pomodoro.Headline6</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Pomodoro.Headline2</item>
 
         <item name="textAppearanceHeadline1">@style/TextAppearance.Pomodoro.Headline1</item>
-        <item name="textAppearanceHeadline2">@style/TextAppearance.Pomodoro.Headline2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.Pomodoro.Headline3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.Pomodoro.Headline4</item>
         <item name="textAppearanceHeadline5">@style/TextAppearance.Pomodoro.Headline5</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.Pomodoro.Subtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/TextAppearance.Pomodoro.Subtitle2</item>
+
         <item name="textAppearanceButton">@style/TextAppearance.Pomodoro.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Pomodoro.Overline</item>
 
@@ -56,17 +56,27 @@
     </style>
 
     <style name="ThemeOverlay.Button.Rounded.16" parent="">
-        <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Rounded</item>
+        <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Rounded.16</item>
+    </style>
+
+    <style name="ThemeOverlay.Button.Rounded.8" parent="">
+        <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Rounded.8</item>
     </style>
 
     <style name="ThemeOverlay.Button.Circle" parent="">
         <item name="shapeAppearanceOverlay">@style/ThemeOverlay.ShapeAppearance.Circle</item>
     </style>
 
-    <style name="ThemeOverlay.ShapeAppearance.Rounded" parent="">
+    <style name="ThemeOverlay.ShapeAppearance.Rounded.16" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
+
+    <style name="ThemeOverlay.ShapeAppearance.Rounded.8" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
 
     <style name="ThemeOverlay.ShapeAppearance.Circle" parent="">
         <item name="cornerFamily">rounded</item>
@@ -88,6 +98,14 @@
         <item name="rippleColor">?attr/colorOnSecondary</item>
     </style>
 
+    <style name="Widget.Pomodoro.Button.TimerMode" parent="Widget.Pomodoro.Button.Secondary">
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="fontFamily">@font/nunito_light</item>
+        <item name="android:theme">@style/ThemeOverlay.Button.Rounded.8</item>
+        <item name="android:minWidth">100dp</item>
+    </style>
+
+
     <style name="Widget.Pomodoro.Button.Estimation" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:insetBottom">0dp</item>
         <item name="android:insetTop">0dp</item>
@@ -101,9 +119,8 @@
     </style>
 
     <style name="TextAppearance.Pomodoro.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="android:textSize">63sp</item>
-        <item name="android:letterSpacing">-0.008</item>
-        <item name="fontFamily">@font/nunito_light</item>
+        <item name="android:textSize">56sp</item>
+        <item name="fontFamily">@font/nunito_bold</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
