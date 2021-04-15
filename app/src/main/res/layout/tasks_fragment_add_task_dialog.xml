@@ -10,9 +10,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         app:boxBackgroundColor="?attr/colorSurface"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -31,7 +31,7 @@
             android:hint="@string/enter_task_name"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
             android:paddingBottom="32dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,8 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Estimation"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:text="How many timers?"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
         app:layout_constraintStart_toStartOf="@+id/titleInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/titleInputLayout" />
 
@@ -61,14 +61,13 @@
         android:id="@+id/timerList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/estimationTitle"
         app:layout_constraintTop_toBottomOf="@+id/estimationTitle"
         tools:itemCount="5"
         tools:listitem="@layout/tasks_fragment_add_task_dialog_estimation_item" />
@@ -76,18 +75,17 @@
     <Button
         android:id="@+id/addOrEditButton"
         style="@style/Widget.Pomodoro.Button.Primary"
-        android:theme="@style/ThemeOverlay.Button.Circle"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="224dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="72dp"
+        android:text="Add task"
+        android:theme="@style/ThemeOverlay.Button.Rounded.16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerList"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:icon="@drawable/ic_add" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerList" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

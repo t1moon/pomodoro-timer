@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Pomodoro" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/brand_red_dark</item>
+        <item name="colorPrimary">@color/brand_red</item>
         <item name="colorPrimaryVariant">@color/brand_red_dark</item>
         <item name="colorOnPrimary">@color/white</item>
 
@@ -135,15 +135,13 @@
     </style>
 
     <style name="TextAppearance.Pomodoro.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textSize">17sp</item>
-        <item name="android:letterSpacing">0.008</item>
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/raleway</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="TextAppearance.Pomodoro.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textSize">15sp</item>
-        <item name="android:letterSpacing">0.006</item>
+        <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/nunito_medium</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
