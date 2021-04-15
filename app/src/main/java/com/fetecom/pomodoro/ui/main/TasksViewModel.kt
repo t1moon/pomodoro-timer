@@ -34,7 +34,6 @@ class TasksViewModel(
 
     val currentTask = liveData<Task> {} as MutableLiveData
     val editableTask = liveData<Task> {} as MutableLiveData
-    var estimationOfAddingTask = liveData<Int> {} as MutableLiveData
 
     fun deleteEditableTask() {
         editableTask.value?.id?.let { taskId ->
@@ -58,10 +57,10 @@ class TasksViewModel(
             tasksRepository.addTask(
                 Task(
                     title = title,
-                    estimation = estimationOfAddingTask.value ?: 1
+                    estimation = estimation
                 )
             )
-            Reporter.reportD("Task has been added: $title")
+            Reporter.reportD("Task has been added: $title and estimation: $estimation")
         }
     }
 
@@ -91,10 +90,9 @@ class TasksViewModel(
     }
 
 
-    fun onCompleteTask(task: Task) {
+    fun onTaskDoneOrUndone(task: Task, isDone: Boolean) {
         viewModelScope.launch {
-            delay(1000L)
-            tasksRepository.markAsDoneByTaskId(task.id)
+            tasksRepository.markAsDoneByTaskId(task.id, isDone)
             Reporter.reportD("Task marked as done: ${task.title}")
             onRefresh()
         }

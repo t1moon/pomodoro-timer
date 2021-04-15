@@ -28,9 +28,9 @@ interface TaskDao {
         save(task.copy(completed = task.completed + 1))
     }
 
-    suspend fun markAsDoneByTaskId(taskId: Int) {
+    suspend fun markAsDoneByTaskId(taskId: Int, isDone: Boolean) {
         val task = getTaskById(taskId)
-        save(task.copy(isDone = true, doneAt = System.currentTimeMillis()))
+        save(task.copy(isDone = isDone, doneAt = System.currentTimeMillis()))
     }
 
     suspend fun transferToTodayById(taskId: Int) {

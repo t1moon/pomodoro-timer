@@ -3,13 +3,11 @@ package com.fetecom.pomodoro.ui.timer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.observe
 import com.fetecom.pomodoro.ui.main.TasksViewModel
 import com.fetecom.pomodoro.ui.main.TimerAdapter
 import kotlinx.android.synthetic.main.tasks_fragment_task_item.*
-import kotlinx.android.synthetic.main.timer_fragment.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
@@ -41,7 +39,7 @@ class PomoTimerFragment : Fragment(R.layout.timer_fragment) {
                 else
                     isCompleted.setBackgroundResource(R.drawable.task_done_view)
 
-                viewModel.onCompleteTask(task)
+                viewModel.onTaskDoneOrUndone(task, !task.isDone)
                 view?.findNavController()?.navigateUp()
             }
             timerList.adapter = completedAdapter

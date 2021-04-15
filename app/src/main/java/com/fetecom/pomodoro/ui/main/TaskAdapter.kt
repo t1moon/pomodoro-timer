@@ -22,6 +22,7 @@ class TaskAdapter(
     interface Interactor {
         fun onTaskClick(task: Task)
         fun onTaskLongClick(task: Task)
+        fun onTaskDoneClick(task: Task, done: Boolean)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -58,6 +59,9 @@ class TaskAdapter(
                     isCompleted.setBackgroundResource(R.drawable.task_done_view)
                 else
                     isCompleted.setBackgroundResource(R.drawable.task_not_done_view)
+                isCompleted.setOnClickListener {
+                    interactor.onTaskDoneClick(item.task, !isDone)
+                }
                 itemView.setOnClickListener {
                     interactor.onTaskClick(this)
                 }

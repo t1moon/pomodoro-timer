@@ -3,13 +3,11 @@ package com.fetecom.pomodoro.ui.main
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.fetecom.data.isToday
 import com.fetecom.domain.Task
 import com.fetecom.pomodoro.R
 import com.fetecom.pomodoro.observe
 import com.fetecom.pomodoro.ui.addtask.TaskDialogFragment
 import com.fetecom.pomodoro.ui.main.date.DatesAdapter
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.tasks_fragment.*
 import org.joda.time.LocalDate
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -81,6 +79,10 @@ class TasksFragment : Fragment(R.layout.tasks_fragment) {
         override fun onTaskLongClick(task: Task) {
             viewModel.onTaskEdit(task)
             showTaskDialog()
+        }
+
+        override fun onTaskDoneClick(task: Task, done: Boolean) {
+            viewModel.onTaskDoneOrUndone(task, done)
         }
     })
 

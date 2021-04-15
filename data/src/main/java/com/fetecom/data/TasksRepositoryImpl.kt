@@ -47,8 +47,8 @@ class TasksRepositoryImpl(
         taskDao.updateDoneInTaskById(taskId)
     }
 
-    override suspend fun markAsDoneByTaskId(taskId: Int) {
-        taskDao.markAsDoneByTaskId(taskId)
+    override suspend fun markAsDoneByTaskId(taskId: Int, isDone: Boolean) {
+        taskDao.markAsDoneByTaskId(taskId, isDone)
     }
 
     override suspend fun transferToTodayById(taskId: Int) {
