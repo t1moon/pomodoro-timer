@@ -6,6 +6,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.fetecom.data.Reporter
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ticker
 import java.util.concurrent.TimeUnit
 
 class PomoTimerViewModel : ViewModel() {
@@ -32,21 +33,17 @@ class PomoTimerViewModel : ViewModel() {
 
     private fun startTimer() {
         viewModelScope.launch {
-            repeat(focusTimeInSec) {
+            val tickerChannel = ticker(delayMillis = 1000, initialDelayMillis = 0)
+            for (event in tickerChannel) {
                 timeLeftInMs.value?.let {
                     setMinAndSec(it)
-                    val newValue = it - 1000L
-                    if (newValue < 0) {
-                        timeIsUp.value = true
-                        cancel()
-                    }
-                    else
-                        timeLeftInMs.value = newValue
+                    timeLeftInMs.value = it - 1000L
                 }
-                delay(1000L)
             }
+            tickerChannel.cancel()
         }
     }
+
 
     private fun setMinAndSec(it: Long) {
         val timeLeftInMinutes = TimeUnit.MILLISECONDS.toMinutes(it)
@@ -57,22 +54,7 @@ class PomoTimerViewModel : ViewModel() {
     }
 
     fun onClick() {
-//        Reporter.reportD("Change status from ${currentState.value}")
-        startTimer()
 
-//        val newState = when (currentState.value) {
-//            TimerState.INIT -> TimerState.START
-//            TimerState.FINISHED -> TimerState.START
-//            TimerState.START -> TimerState.PAUSED
-//            TimerState.PLAY -> TimerState.PAUSED
-//            TimerState.PAUSED -> TimerState.PLAY
-//            else -> throw IllegalStateException("This type doesn't exist")
-//        }
-//        if (newState == TimerState.START)
-
-
-//        currentState.value = newState
-//        Reporter.reportD("Changed status to :${currentState.value}")
     }
 }
 
